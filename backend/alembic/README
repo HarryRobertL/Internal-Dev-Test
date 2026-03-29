@@ -1,0 +1,19 @@
+# Alembic
+
+**Schema is managed exclusively through Alembic migrations** so all environments stay aligned and ORM models do not drift from the database. The FastAPI app does not create tables at startup.
+
+**Exception:** `pytest` uses `Base.metadata.create_all()` only inside `tests/support/` for disposable in-memory databases — never for the app’s real `DATABASE_URL`.
+
+## Reviewer checklist
+
+1. **No production `create_all`** — `app/` never calls `Base.metadata.create_all()`.
+
+2. **`target_metadata = Base.metadata`** — Set in `env.py` (imports `Base` from `app.db.base`).
+
+3. **Models imported in `env.py`** — `from app.models import customer as _customer` so all ORM tables are registered on `Base.metadata` before autogenerate.
+
+4. **DB URL from environment** — `get_settings().database_url` (same `DATABASE_URL` / `.env` as the FastAPI app). Offline mode uses it too.
+
+5. **Initial migration (`67c84f970ba5`)** — Creates `customers` with `created_at` (+ server default), columns matching the model, and index `ix_customers_email`.
+
+See also **`../README.md`** (migrations section).
