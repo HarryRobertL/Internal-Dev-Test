@@ -6,9 +6,8 @@ import type {
   PaginationMeta,
 } from '../types/customer'
 
-const DEFAULT_API_URL = 'http://localhost:8000'
 const API_BASE_URL =
-  import.meta.env.VITE_API_URL?.replace(/\/$/, '') ?? DEFAULT_API_URL
+  import.meta.env.VITE_API_URL?.trim().replace(/\/$/, '') || 'http://localhost:8000'
 const REQUEST_TIMEOUT_MS = 8000
 const MAX_ATTEMPTS = 2
 const RETRY_DELAY_MS = 250
@@ -43,7 +42,9 @@ function isAbortError(error: unknown): boolean {
 }
 
 function shouldRetry(error: ApiError): boolean {
-  if (error.code === 'network_error' || error.code === 'timeout_error') return true
+  // Avoid retry storms when backend is offline or blocked by CORS.
+  if (error.code === 'network_error') return false
+  if (error.code === 'timeout_error') return true
   if (error.status >= 500) return true
   return false
 }
@@ -111,12 +112,14 @@ async function requestJson<T>(
   let lastError: ApiError | null = null
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
     try {
+      const headers = new Headers(init?.headers)
+      if (init?.body != null && !headers.has('Content-Type')) {
+        headers.set('Content-Type', 'application/json')
+      }
+
       const response = await fetchWithTimeout(`${API_BASE_URL}${path}`, {
         ...init,
-        headers: {
-          'Content-Type': 'application/json',
-          ...(init?.headers ?? {}),
-        },
+        headers,
       })
 
       const text = await response.text()

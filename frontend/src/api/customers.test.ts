@@ -15,27 +15,16 @@ describe('customers api client reliability', () => {
     vi.useRealTimers()
   })
 
-  it('retries once on network failure and succeeds on second attempt', async () => {
+  it('fails fast on network failure without retrying', async () => {
     const fetchMock = vi
       .fn()
       .mockRejectedValueOnce(new TypeError('network down'))
-      .mockResolvedValueOnce(
-        jsonResponse({
-          data: [],
-          error: null,
-          meta: {
-            pagination: { page: 1, limit: 10, total: 0, total_pages: 0 },
-          },
-        }),
-      )
     vi.stubGlobal('fetch', fetchMock)
 
-    const result = await listCustomers({ page: 1, limit: 10 })
-    expect(fetchMock).toHaveBeenCalledTimes(2)
-    expect(result).toEqual({
-      items: [],
-      pagination: { page: 1, limit: 10, total: 0, total_pages: 0 },
+    await expect(listCustomers({ page: 1, limit: 10 })).rejects.toMatchObject({
+      code: 'network_error',
     })
+    expect(fetchMock).toHaveBeenCalledTimes(1)
   })
 
   it('returns retry_exhausted after repeated timeouts', async () => {

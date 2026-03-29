@@ -15,10 +15,10 @@ From this directory (`frontend/`):
 ```bash
 npm install
 cp .env.example .env   # optional
-npm run dev
+npm run dev -- --host 0.0.0.0 --port 6001 --strictPort
 ```
 
-Default app URL: [http://localhost:5173](http://localhost:5173)
+Default app URL: [http://localhost:6001](http://localhost:6001)
 
 ## Environment
 

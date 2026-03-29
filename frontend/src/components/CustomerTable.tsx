@@ -112,14 +112,14 @@ export function CustomerTable({
           Showing page {pagination.page} of {Math.max(1, pagination.total_pages)}
         </span>
         <button
-          className="rounded-md bg-black px-3 py-1.5 text-sm font-semibold text-white shadow-sm transition-colors transition-transform duration-150 hover:bg-black/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-md border border-slate-300 bg-gray-200 px-3 py-1.5 text-sm font-medium text-slate-800 shadow-sm transition-colors duration-150 hover:bg-gray-300 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400 disabled:opacity-70"
           onClick={() => onPageChange(pagination.page - 1)}
           disabled={!canGoPrevious || isLoading}
         >
           Previous
         </button>
         <button
-          className="rounded-md bg-black px-3 py-1.5 text-sm font-semibold text-white shadow-sm transition-colors transition-transform duration-150 hover:bg-black/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-md border border-slate-300 bg-gray-200 px-3 py-1.5 text-sm font-medium text-slate-800 shadow-sm transition-colors duration-150 hover:bg-gray-300 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400 disabled:opacity-70"
           onClick={() => onPageChange(pagination.page + 1)}
           disabled={!canGoNext || isLoading}
         >

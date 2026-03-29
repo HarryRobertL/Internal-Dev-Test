@@ -49,18 +49,20 @@ export function CustomersPage() {
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null)
   const listRequestIdRef = useRef(0)
 
-  const fetchCustomers = useCallback(async (page: number) => {
+  const fetchCustomers = useCallback(async (page: number, signal?: AbortSignal) => {
+    if (signal?.aborted) return
     const requestId = ++listRequestIdRef.current
     setIsLoading(true)
     setLoadError(null)
 
     try {
-      const data = await listCustomers({ page, limit: PAGE_LIMIT })
+      const data = await listCustomers({ page, limit: PAGE_LIMIT, signal })
       if (requestId !== listRequestIdRef.current) return
       setCustomers(data.items)
       setPagination(data.pagination)
     } catch (error) {
       if (requestId !== listRequestIdRef.current) return
+      if (error instanceof ApiError && error.code === 'request_cancelled') return
       if (error instanceof ApiError && error.code === 'network_error') {
         setLoadError('Unable to reach the API. Please retry.')
         return
@@ -74,7 +76,12 @@ export function CustomersPage() {
   }, [])
 
   useEffect(() => {
-    void fetchCustomers(pagination.page)
+    const controller = new AbortController()
+    void fetchCustomers(pagination.page, controller.signal)
+
+    return () => {
+      controller.abort()
+    }
   }, [fetchCustomers, pagination.page])
 
   useEffect(() => {
