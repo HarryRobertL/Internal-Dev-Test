@@ -6,8 +6,10 @@ import type {
   PaginationMeta,
 } from '../types/customer'
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL?.trim().replace(/\/$/, '') || 'http://localhost:8000'
+const API_BASE_URL = import.meta.env.VITE_API_URL?.trim().replace(/\/$/, '')
+if (!API_BASE_URL) {
+  throw new Error('VITE_API_URL must be set (e.g. http://localhost:8000).')
+}
 const REQUEST_TIMEOUT_MS = 8000
 const MAX_ATTEMPTS = 2
 const RETRY_DELAY_MS = 250

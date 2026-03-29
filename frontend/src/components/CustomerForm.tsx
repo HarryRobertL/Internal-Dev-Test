@@ -122,7 +122,7 @@ export function CustomerForm({
           </label>
           <input
             id={fieldId.name}
-            className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm transition-colors duration-150 placeholder:text-slate-400 hover:border-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
+            className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm transition-colors duration-150 placeholder:text-slate-400 hover:border-slate-400 focus:border-black/30 focus:outline-none focus:ring-2 focus:ring-black/10"
             value={form.name}
             onChange={(event) => update('name', event.target.value)}
             disabled={isSubmitting}
@@ -143,7 +143,7 @@ export function CustomerForm({
           </label>
           <input
             id={fieldId.email}
-            className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm transition-colors duration-150 placeholder:text-slate-400 hover:border-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
+            className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm transition-colors duration-150 placeholder:text-slate-400 hover:border-slate-400 focus:border-black/30 focus:outline-none focus:ring-2 focus:ring-black/10"
             value={form.email}
             onChange={(event) => update('email', event.target.value)}
             disabled={isSubmitting}
@@ -164,7 +164,7 @@ export function CustomerForm({
           </label>
           <input
             id={fieldId.phone}
-            className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm transition-colors duration-150 placeholder:text-slate-400 hover:border-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
+            className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm transition-colors duration-150 placeholder:text-slate-400 hover:border-slate-400 focus:border-black/30 focus:outline-none focus:ring-2 focus:ring-black/10"
             value={form.phone}
             onChange={(event) => update('phone', event.target.value)}
             disabled={isSubmitting}
@@ -185,7 +185,7 @@ export function CustomerForm({
           </label>
           <textarea
             id={fieldId.request_details}
-            className="min-h-28 w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm transition-colors duration-150 placeholder:text-slate-400 hover:border-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
+            className="min-h-28 w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm transition-colors duration-150 placeholder:text-slate-400 hover:border-slate-400 focus:border-black/30 focus:outline-none focus:ring-2 focus:ring-black/10"
             value={form.request_details}
             onChange={(event) => update('request_details', event.target.value)}
             disabled={isSubmitting}
@@ -206,7 +206,7 @@ export function CustomerForm({
           </label>
           <textarea
             id={fieldId.response_data}
-            className="min-h-20 w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm transition-colors duration-150 placeholder:text-slate-400 hover:border-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
+            className="min-h-20 w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm transition-colors duration-150 placeholder:text-slate-400 hover:border-slate-400 focus:border-black/30 focus:outline-none focus:ring-2 focus:ring-black/10"
             value={form.response_data}
             onChange={(event) => update('response_data', event.target.value)}
             disabled={isSubmitting}

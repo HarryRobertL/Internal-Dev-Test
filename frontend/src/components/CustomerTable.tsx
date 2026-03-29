@@ -68,19 +68,19 @@ export function CustomerTable({
           <table className="min-w-full border-collapse text-left text-sm">
             <thead className="bg-slate-50">
               <tr className="border-b border-slate-200">
-                <th className="text-muted-foreground px-3 py-3 text-left text-xs font-medium uppercase tracking-wide">
+                <th className="text-muted-foreground px-4 py-3 text-left text-xs font-medium uppercase tracking-wide">
                   Created
                 </th>
-                <th className="text-muted-foreground px-3 py-3 text-left text-xs font-medium uppercase tracking-wide">
+                <th className="text-muted-foreground px-4 py-3 text-left text-xs font-medium uppercase tracking-wide">
                   Name
                 </th>
-                <th className="text-muted-foreground px-3 py-3 text-left text-xs font-medium uppercase tracking-wide">
+                <th className="text-muted-foreground px-4 py-3 text-left text-xs font-medium uppercase tracking-wide">
                   Email
                 </th>
-                <th className="text-muted-foreground px-3 py-3 text-left text-xs font-medium uppercase tracking-wide">
+                <th className="text-muted-foreground px-4 py-3 text-left text-xs font-medium uppercase tracking-wide">
                   Phone
                 </th>
-                <th className="text-muted-foreground px-3 py-3 text-left text-xs font-medium uppercase tracking-wide">
+                <th className="text-muted-foreground px-4 py-3 text-left text-xs font-medium uppercase tracking-wide">
                   Request Details
                 </th>
               </tr>
@@ -91,13 +91,13 @@ export function CustomerTable({
                   key={customer.id}
                   className="border-b border-slate-100 transition-colors duration-150 hover:bg-muted/50"
                 >
-                  <td className="px-3 py-3 align-top text-slate-600">
+                  <td className="px-4 py-3 align-top text-slate-600">
                     {formatDate(customer.created_at)}
                   </td>
-                  <td className="px-3 py-3 align-top text-slate-800">{customer.name}</td>
-                  <td className="px-3 py-3 align-top text-slate-800">{customer.email}</td>
-                  <td className="px-3 py-3 align-top text-slate-800">{customer.phone}</td>
-                  <td className="px-3 py-3 align-top whitespace-pre-line break-words text-slate-700">
+                  <td className="px-4 py-3 align-top text-slate-800">{customer.name}</td>
+                  <td className="px-4 py-3 align-top text-slate-800">{customer.email}</td>
+                  <td className="px-4 py-3 align-top text-slate-800">{customer.phone}</td>
+                  <td className="px-4 py-3 align-top whitespace-pre-line break-words text-slate-700">
                     {customer.request_details}
                   </td>
                 </tr>
@@ -112,14 +112,14 @@ export function CustomerTable({
           Showing page {pagination.page} of {Math.max(1, pagination.total_pages)}
         </span>
         <button
-          className="rounded-md border border-slate-300 bg-gray-200 px-3 py-1.5 text-sm font-medium text-slate-800 shadow-sm transition-colors duration-150 hover:bg-gray-300 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400 disabled:opacity-70"
+          className="rounded-md border border-slate-300 bg-gray-200 px-3 py-1.5 text-sm font-medium text-gray-800 shadow-sm transition-colors duration-150 hover:bg-gray-300 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400 disabled:opacity-70"
           onClick={() => onPageChange(pagination.page - 1)}
           disabled={!canGoPrevious || isLoading}
         >
           Previous
         </button>
         <button
-          className="rounded-md border border-slate-300 bg-gray-200 px-3 py-1.5 text-sm font-medium text-slate-800 shadow-sm transition-colors duration-150 hover:bg-gray-300 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400 disabled:opacity-70"
+          className="rounded-md border border-slate-300 bg-gray-200 px-3 py-1.5 text-sm font-medium text-gray-800 shadow-sm transition-colors duration-150 hover:bg-gray-300 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400 disabled:opacity-70"
           onClick={() => onPageChange(pagination.page + 1)}
           disabled={!canGoNext || isLoading}
         >

@@ -7,8 +7,8 @@ interface PageShellProps {
 export function PageShell({ children }: PageShellProps) {
   return (
     <main className="app-shell-bg min-h-screen px-4 py-9 md:px-6 md:py-11">
-      <div className="mx-auto max-w-7xl space-y-7">
-        <header className="app-card w-full max-w-4xl rounded-xl p-6">
+      <div className="mx-auto max-w-7xl">
+        <header className="app-card mx-auto mb-8 w-full max-w-4xl rounded-xl p-6">
           <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
             Customer Information API
           </h1>
