@@ -27,10 +27,10 @@ export function CustomerTable({
   const canGoNext = pagination.page < pagination.total_pages
 
   return (
-    <section className="app-card rounded-xl p-6 md:p-7">
+    <section className="app-card w-full max-w-xl rounded-xl p-6">
       <div className="mb-5 flex items-center justify-between">
         <h2 className="text-xl font-semibold text-slate-900">Customer Requests</h2>
-        <p className="text-sm font-medium text-slate-500">Total records: {pagination.total}</p>
+        <p className="text-muted-foreground text-sm">Total records: {pagination.total}</p>
       </div>
 
       {isLoading ? (
@@ -57,7 +57,7 @@ export function CustomerTable({
       {!isLoading && !loadError && customers.length === 0 ? (
         <div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 px-4 py-8 text-center">
           <p className="text-sm font-medium text-slate-700">No customer records yet.</p>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="text-muted-foreground mt-1 text-sm">
             New submissions will appear here.
           </p>
         </div>
@@ -67,12 +67,20 @@ export function CustomerTable({
         <div className="overflow-x-auto rounded-lg border border-slate-200">
           <table className="min-w-full border-collapse text-left text-sm">
             <thead className="bg-slate-50">
-              <tr className="border-b border-slate-200 text-slate-600">
-                <th className="px-3 py-2.5 text-[13px] font-semibold tracking-wide">Created</th>
-                <th className="px-3 py-2.5 text-[13px] font-semibold tracking-wide">Name</th>
-                <th className="px-3 py-2.5 text-[13px] font-semibold tracking-wide">Email</th>
-                <th className="px-3 py-2.5 text-[13px] font-semibold tracking-wide">Phone</th>
-                <th className="px-3 py-2.5 text-[13px] font-semibold tracking-wide">
+              <tr className="border-b border-slate-200">
+                <th className="text-muted-foreground px-3 py-3 text-left text-xs font-medium uppercase tracking-wide">
+                  Created
+                </th>
+                <th className="text-muted-foreground px-3 py-3 text-left text-xs font-medium uppercase tracking-wide">
+                  Name
+                </th>
+                <th className="text-muted-foreground px-3 py-3 text-left text-xs font-medium uppercase tracking-wide">
+                  Email
+                </th>
+                <th className="text-muted-foreground px-3 py-3 text-left text-xs font-medium uppercase tracking-wide">
+                  Phone
+                </th>
+                <th className="text-muted-foreground px-3 py-3 text-left text-xs font-medium uppercase tracking-wide">
                   Request Details
                 </th>
               </tr>
@@ -81,15 +89,15 @@ export function CustomerTable({
               {customers.map((customer) => (
                 <tr
                   key={customer.id}
-                  className="border-b border-slate-100 transition-colors duration-150 hover:bg-slate-50"
+                  className="border-b border-slate-100 transition-colors duration-150 hover:bg-muted/50"
                 >
-                  <td className="px-3 py-2.5 text-slate-600">
+                  <td className="px-3 py-3 align-top text-slate-600">
                     {formatDate(customer.created_at)}
                   </td>
-                  <td className="px-3 py-2.5 text-slate-800">{customer.name}</td>
-                  <td className="px-3 py-2.5 text-slate-800">{customer.email}</td>
-                  <td className="px-3 py-2.5 text-slate-800">{customer.phone}</td>
-                  <td className="px-3 py-2.5 text-slate-700 whitespace-pre-line break-words">
+                  <td className="px-3 py-3 align-top text-slate-800">{customer.name}</td>
+                  <td className="px-3 py-3 align-top text-slate-800">{customer.email}</td>
+                  <td className="px-3 py-3 align-top text-slate-800">{customer.phone}</td>
+                  <td className="px-3 py-3 align-top whitespace-pre-line break-words text-slate-700">
                     {customer.request_details}
                   </td>
                 </tr>
@@ -104,14 +112,14 @@ export function CustomerTable({
           Showing page {pagination.page} of {Math.max(1, pagination.total_pages)}
         </span>
         <button
-          className="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-150 hover:-translate-y-px hover:bg-slate-50 active:translate-y-0 active:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-md bg-black px-3 py-1.5 text-sm font-semibold text-white shadow-sm transition-colors transition-transform duration-150 hover:bg-black/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
           onClick={() => onPageChange(pagination.page - 1)}
           disabled={!canGoPrevious || isLoading}
         >
           Previous
         </button>
         <button
-          className="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-150 hover:-translate-y-px hover:bg-slate-50 active:translate-y-0 active:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-md bg-black px-3 py-1.5 text-sm font-semibold text-white shadow-sm transition-colors transition-transform duration-150 hover:bg-black/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
           onClick={() => onPageChange(pagination.page + 1)}
           disabled={!canGoNext || isLoading}
         >

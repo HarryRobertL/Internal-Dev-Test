@@ -117,7 +117,7 @@ export function CustomersPage() {
 
   return (
     <PageShell>
-      <div className="grid grid-cols-1 gap-7 lg:grid-cols-5">
+      <div className="grid grid-cols-1 items-start gap-7 lg:grid-cols-5">
         <div className="lg:col-span-2">
           <CustomerForm
             isSubmitting={isSubmitting}

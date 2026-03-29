@@ -8,11 +8,20 @@
 html,
 body {
   margin: 0;
-  min-height: 100vh;
+  min-height: 100%;
   background-color: #f8fafc;
   color: #0f172a;
   font-family: "Open Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   text-rendering: optimizeLegibility;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #f8fafc;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: 0 0;
+  background-repeat: repeat;
 }
 
 #root {
@@ -30,25 +39,29 @@ h6 {
 }
 
 .app-shell-bg {
-  background-color: #f8fafc;
-  background-image: radial-gradient(rgba(15, 23, 42, 0.06) 0.7px, transparent 0.7px);
-  background-size: 14px 14px;
+  background: transparent;
+}
+
+.text-muted-foreground {
+  color: #64748b;
+}
+
+.hover\:bg-muted\/50:hover {
+  background-color: rgba(148, 163, 184, 0.14);
 }
 
 .app-card {
   border: 1px solid #e2e8f0;
   background: #ffffff;
-  box-shadow:
-    0 1px 2px rgba(15, 23, 42, 0.05),
-    0 8px 24px -20px rgba(15, 23, 42, 0.2);
-  transition:
-    box-shadow 160ms ease,
-    transform 160ms ease;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+  transition-property: box-shadow, transform;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
 }
 
 .app-card:hover {
   transform: translateY(-1px);
   box-shadow:
-    0 1px 2px rgba(15, 23, 42, 0.06),
-    0 14px 30px -18px rgba(15, 23, 42, 0.28);
+    0 4px 6px -1px rgba(15, 23, 42, 0.1),
+    0 2px 4px -2px rgba(15, 23, 42, 0.1);
 }

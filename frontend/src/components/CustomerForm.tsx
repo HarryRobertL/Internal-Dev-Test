@@ -89,9 +89,9 @@ export function CustomerForm({
   }
 
   return (
-    <section className="app-card rounded-xl p-6 md:p-7">
-      <h2 className="mb-1 text-xl font-semibold text-slate-900">Submit Request</h2>
-      <p className="mb-6 text-sm leading-6 text-slate-500">
+    <section className="app-card w-full max-w-xl rounded-xl p-6">
+      <h2 className="mb-1 text-xl font-semibold tracking-tight text-slate-900">Submit Request</h2>
+      <p className="text-muted-foreground mb-6 text-sm leading-6">
         Enter customer details and submit to create a new request record.
       </p>
 
@@ -116,13 +116,13 @@ export function CustomerForm({
         <div className="space-y-1.5">
           <label
             htmlFor={fieldId.name}
-            className="block text-[13px] font-semibold tracking-wide text-slate-700"
+            className="block text-sm font-medium text-slate-700"
           >
             Name
           </label>
           <input
             id={fieldId.name}
-            className="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm transition-colors duration-150 placeholder:text-slate-400 hover:border-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
+            className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm transition-colors duration-150 placeholder:text-slate-400 hover:border-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
             value={form.name}
             onChange={(event) => update('name', event.target.value)}
             disabled={isSubmitting}
@@ -137,13 +137,13 @@ export function CustomerForm({
         <div className="space-y-1.5">
           <label
             htmlFor={fieldId.email}
-            className="block text-[13px] font-semibold tracking-wide text-slate-700"
+            className="block text-sm font-medium text-slate-700"
           >
             Email
           </label>
           <input
             id={fieldId.email}
-            className="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm transition-colors duration-150 placeholder:text-slate-400 hover:border-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
+            className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm transition-colors duration-150 placeholder:text-slate-400 hover:border-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
             value={form.email}
             onChange={(event) => update('email', event.target.value)}
             disabled={isSubmitting}
@@ -158,13 +158,13 @@ export function CustomerForm({
         <div className="space-y-1.5">
           <label
             htmlFor={fieldId.phone}
-            className="block text-[13px] font-semibold tracking-wide text-slate-700"
+            className="block text-sm font-medium text-slate-700"
           >
             Phone
           </label>
           <input
             id={fieldId.phone}
-            className="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm transition-colors duration-150 placeholder:text-slate-400 hover:border-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
+            className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm transition-colors duration-150 placeholder:text-slate-400 hover:border-slate-400 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200"
             value={form.phone}
             onChange={(event) => update('phone', event.target.value)}
             disabled={isSubmitting}
@@ -179,7 +179,7 @@ export function CustomerForm({
         <div className="space-y-1.5">
           <label
             htmlFor={fieldId.request_details}
-            className="block text-[13px] font-semibold tracking-wide text-slate-700"
+            className="block text-sm font-medium text-slate-700"
           >
             Request Details
           </label>
@@ -200,7 +200,7 @@ export function CustomerForm({
         <div className="space-y-1.5">
           <label
             htmlFor={fieldId.response_data}
-            className="block text-[13px] font-semibold tracking-wide text-slate-700"
+            className="block text-sm font-medium text-slate-700"
           >
             Response Data (optional)
           </label>
@@ -217,7 +217,7 @@ export function CustomerForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="inline-flex items-center justify-center rounded-md bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:-translate-y-px hover:bg-slate-800 active:translate-y-0 active:bg-slate-900 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-100 disabled:shadow-none"
+          className="inline-flex items-center justify-center rounded-md bg-black px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors transition-transform duration-150 hover:bg-black/90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
           aria-busy={isSubmitting}
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
