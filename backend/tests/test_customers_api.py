@@ -92,16 +92,17 @@ def test_list_pagination_first_page_and_metadata(client) -> None:
 
     r1 = client.get("/api/customers", params={"page": 1, "limit": 10})
     assert r1.status_code == 200
-    outer = assert_success_data(r1.json())
-    assert "items" in outer and "pagination" in outer
-    pag = outer["pagination"]
+    body = r1.json()
+    items = assert_success_data(body)
+    pag = body["meta"]["pagination"]
     assert pag == {
         "page": 1,
         "limit": 10,
         "total": 25,
         "total_pages": 3,
     }
-    assert len(outer["items"]) == 10
+    assert isinstance(items, list)
+    assert len(items) == 10
 
 
 def test_list_pagination_last_page_partial(client) -> None:
@@ -110,17 +111,19 @@ def test_list_pagination_last_page_partial(client) -> None:
 
     r3 = client.get("/api/customers", params={"page": 3, "limit": 10})
     assert r3.status_code == 200
-    outer = assert_success_data(r3.json())
-    assert len(outer["items"]) == 5
-    assert outer["pagination"]["page"] == 3
+    body = r3.json()
+    items = assert_success_data(body)
+    assert len(items) == 5
+    assert body["meta"]["pagination"]["page"] == 3
 
 
 def test_list_empty_collection(client) -> None:
     response = client.get("/api/customers", params={"page": 1, "limit": 10})
     assert response.status_code == 200
-    outer = assert_success_data(response.json())
-    assert outer["items"] == []
-    assert outer["pagination"] == {
+    body = response.json()
+    items = assert_success_data(body)
+    assert items == []
+    assert body["meta"]["pagination"] == {
         "page": 1,
         "limit": 10,
         "total": 0,

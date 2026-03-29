@@ -4,7 +4,7 @@
 
 **Customer Information API** — internal operator tool: React frontend + Python API + relational persistence for customer request records.
 
-**Companion doc:** [mrd.md](./mrd.md) (market framing and assessment intent).
+**Companion doc:** [MRD.md](./MRD.md) (market framing and assessment intent).
 
 ---
 

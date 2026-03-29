@@ -14,7 +14,7 @@
 | **Product intent** | **Strong** | MRD/PRD define users, endpoints, fields, non-goals, and acceptance checklist. |
 | **Technical direction** | **Strong** | Architecture note locks stack, three-tier model, and target folder shape. |
 | **CI / tooling** | **None** | No `requirements.txt`, `package.json`, linters, or GitHub Actions — acceptable until scaffold exists. |
-| **Doc link consistency** | **Minor** | [prd.md](./prd.md) links to `mrd.md`; on disk the file is `MRD.md` (case-sensitive clones may break the link). Worth aligning when convenient. |
+| **Doc link consistency** | **Resolved** | Docs now link to `MRD.md` consistently. |
 | **Git** | **Unknown / not assumed** | Workspace was not a git repo in earlier context; version control is recommended before heavy implementation. |
 
 **Verdict:** The repo is a **planning-only** baseline. Risk is low: no legacy code to unwind. The main job is **disciplined execution** against PRD + architecture note without scope creep.
@@ -158,7 +158,7 @@ Phases are **sequential**; do not start frontend until **Phase B** endpoints are
 ### Phase H — Final pass
 
 1. Cross-check PRD acceptance checklist.
-2. Fix doc links (`mrd.md` vs `MRD.md`).
+2. Verify docs and setup instructions are consistent and up to date.
 3. Optional: `docker-compose.yml` for Postgres only — nice-to-have, not required by MRD non-goals.
 
 ---
@@ -240,7 +240,7 @@ Phases are **sequential**; do not start frontend until **Phase B** endpoints are
 | **CORS misconfiguration** | Frontend “mysteriously” fails | Set allowed origins from env; README calls out `VITE` port vs API port. |
 | **Tests coupled to production DB** | Flaky CI / slow onboarding | Tests use isolated SQLite or disposable Postgres schema; never require manual seed data. |
 | **Scope creep (auth, Docker swarm, etc.)** | Time lost; violates MRD non-goals | Treat README and backend tests as the “polish” investment, not new features. |
-| **Doc filename case (`MRD.md` vs `mrd.md`)** | Broken links on Linux | Standardise naming and links in one pass. |
+| **Doc consistency drift** | Confusion during review | Keep one canonical naming convention and validate links during final pass. |
 | **Frontend before API freeze** | Rework when JSON changes | Strict **Phase E** gate: complete Phases A–D first. |
 
 ---

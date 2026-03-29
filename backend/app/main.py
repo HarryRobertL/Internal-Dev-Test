@@ -5,11 +5,13 @@ from app.api.customers import router as customers_router
 from app.api.exception_handlers import register_exception_handlers
 from app.api.health import router as health_router
 from app.core.config import get_settings
+from app.middleware.request_logging import RequestLoggingMiddleware
 
 
 def create_app() -> FastAPI:
     settings = get_settings()
     app = FastAPI(title="Customer Information API")
+    app.add_middleware(RequestLoggingMiddleware)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origin_list,

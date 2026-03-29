@@ -1,7 +1,7 @@
 # Technical architecture note
 
 **Product:** Customer Information API (full stack)  
-**Related:** [mrd.md](./mrd.md), [prd.md](./prd.md)
+**Related:** [MRD.md](./MRD.md), [prd.md](./prd.md)
 
 ---
 

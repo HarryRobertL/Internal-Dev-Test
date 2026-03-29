@@ -3,7 +3,7 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 
-from sqlalchemy import DateTime, String, Text, Uuid, func
+from sqlalchemy import DateTime, Index, String, Text, Uuid, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base
@@ -11,6 +11,10 @@ from app.db.base import Base
 
 class Customer(Base):
     __tablename__ = "customers"
+    __table_args__ = (
+        # Supports the primary list query (ORDER BY created_at DESC, id DESC).
+        Index("ix_customers_created_at_id", "created_at", "id"),
+    )
 
     id: Mapped[uuid.UUID] = mapped_column(
         Uuid(as_uuid=True),

@@ -51,6 +51,28 @@ alembic upgrade head
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
+## Operational notes
+
+- `/health` now checks database connectivity (`SELECT 1`) and returns `503` with the standard envelope if DB is unavailable.
+- Every response includes `X-Request-ID` (generated if not provided by the caller).
+- Request logs include `method`, `path`, `status`, `duration_ms`, and `request_id`.
+
+### Run with PostgreSQL locally
+
+Use a PostgreSQL URL with the psycopg driver:
+
+```bash
+export DATABASE_URL="postgresql+psycopg://postgres:postgres@localhost:5432/customer_info"
+alembic upgrade head
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Quick Docker option:
+
+```bash
+docker run --name customer-info-postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=customer_info -p 5432:5432 -d postgres:16
+```
+
 ## Tests
 
 Install dev dependencies (included in `requirements.txt`):
@@ -63,6 +85,13 @@ Run the suite (must be run from `backend/` so `app` resolves):
 
 ```bash
 pytest
+```
+
+PostgreSQL validation test (migration path + UUID/timestamp/index behaviour):
+
+```bash
+export TEST_DATABASE_URL="postgresql+psycopg://postgres:postgres@localhost:5432/customer_info"
+bash scripts/test_postgres.sh
 ```
 
 Verbose output:

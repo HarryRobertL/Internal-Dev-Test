@@ -83,7 +83,8 @@ def list_customers_paginated(
 
     stmt = (
         select(Customer)
-        .order_by(Customer.created_at.desc())
+        # Stable ordering prevents record jitter across pages when created_at ties.
+        .order_by(Customer.created_at.desc(), Customer.id.desc())
         .offset(offset)
         .limit(safe_limit)
     )

@@ -10,6 +10,8 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
+from app.schemas.api_response import ErrorInfo, ErrorResponse
+
 logger = logging.getLogger(__name__)
 
 
@@ -50,6 +52,13 @@ def _normalise_http_detail(detail: Any, http_status: int) -> dict[str, Any]:
     }
 
 
+def _error_envelope(*, code: str, message: str, details: Any) -> dict[str, Any]:
+    body = ErrorResponse(
+        error=ErrorInfo(code=code, message=message, details=details),
+    )
+    return body.model_dump(mode="json")
+
+
 def register_exception_handlers(app: FastAPI) -> None:
     @app.exception_handler(RequestValidationError)
     async def validation_error_handler(
@@ -58,13 +67,11 @@ def register_exception_handlers(app: FastAPI) -> None:
     ) -> JSONResponse:
         return JSONResponse(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            content={
-                "error": {
-                    "code": "validation_error",
-                    "message": "Request validation failed",
-                    "details": exc.errors(),
-                }
-            },
+            content=_error_envelope(
+                code="validation_error",
+                message="Request validation failed",
+                details=exc.errors(),
+            ),
         )
 
     @app.exception_handler(StarletteHTTPException)
@@ -75,7 +82,11 @@ def register_exception_handlers(app: FastAPI) -> None:
         body = _normalise_http_detail(exc.detail, exc.status_code)
         return JSONResponse(
             status_code=exc.status_code,
-            content={"error": body},
+            content=_error_envelope(
+                code=body["code"],
+                message=body["message"],
+                details=body["details"],
+            ),
         )
 
     @app.exception_handler(Exception)
@@ -86,11 +97,9 @@ def register_exception_handlers(app: FastAPI) -> None:
         logger.exception("Unhandled server error")
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content={
-                "error": {
-                    "code": "internal_error",
-                    "message": "An unexpected error occurred",
-                    "details": None,
-                }
-            },
+            content=_error_envelope(
+                code="internal_error",
+                message="An unexpected error occurred",
+                details=None,
+            ),
         )

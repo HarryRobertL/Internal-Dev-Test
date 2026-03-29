@@ -40,6 +40,11 @@ def test_lazy_engine_singleton_after_alembic_upgrade(tmp_path, monkeypatch) -> N
     with first.connect() as conn:
         count = conn.execute(text("SELECT COUNT(*) FROM customers")).scalar_one()
         assert count == 0
+        # SQLite PRAGMA shape: seq, name, unique, origin, partial
+        indexes = conn.execute(text("PRAGMA index_list('customers')")).fetchall()
+        index_names = {row[1] for row in indexes}
+        assert "ix_customers_email" in index_names
+        assert "ix_customers_created_at_id" in index_names
 
     dispose_engine()
     get_settings.cache_clear()
