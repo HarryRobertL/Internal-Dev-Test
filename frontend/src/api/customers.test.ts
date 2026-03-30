@@ -2,13 +2,6 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { listCustomers } from './customers'
 
-function jsonResponse(body: unknown, status = 200): Response {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { 'Content-Type': 'application/json' },
-  })
-}
-
 describe('customers api client reliability', () => {
   afterEach(() => {
     vi.restoreAllMocks()
