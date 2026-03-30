@@ -24,7 +24,7 @@ Frontend (React + TypeScript)
 
 ## Request lifecycle
 
-When a user submits the **Create customer request** form:
+When a user submits the **Submit Request** form:
 
 1. **Frontend** validates inputs locally, then calls the API client.
 2. **API client** sends `POST /api/customers` with a JSON body, **enforces a timeout**, and **retries only** on timeout or **5xx** (not on network/CORS failures, to avoid retry storms).
