@@ -169,7 +169,7 @@ Phases are **sequential**; do not start frontend until **Phase B** endpoints are
 |----------|--------|-----|
 | **API style** | REST JSON under `/api/customers` | Matches PRD and reviewer expectations; OpenAPI for free with FastAPI. |
 | **ID type** | UUID string in JSON, UUID/native in DB for Postgres | PRD requires UUID; stable public identifiers; document string format in API. |
-| **Pagination** | Offset/limit or page/page_size with `total` | Simple for internal tools; React table + “next page” is straightforward. Cursor-based is optional and usually unnecessary here. |
+| **Pagination** | Offset/limit or page/page_size with `total` | Simple for internal tools; React table + “next page” is straightforward. Keyset-style paging is an optional enhancement depending on system scale and performance requirements. |
 | **DB for local dev** | SQLite OK if Alembic + URL switch to Postgres is documented | PRD allows SQLite for speed; PostgreSQL-ready means no SQLite-only hacks in models without comment. |
 | **Session scope** | One session per request via dependency | Standard FastAPI + SQLAlchemy pattern; easy to test with overrides. |
 | **Validation split** | Pydantic on boundary; service assumes validated DTOs | Keeps routes thin; avoids duplicate validation logic scattered in handlers. |
@@ -236,7 +236,7 @@ Phases are **sequential**; do not start frontend until **Phase B** endpoints are
 | **UUID + SQLite + Alembic quirks** | Migrations or types differ from Postgres | Use one strategy (e.g. `String(36)` for UUID on SQLite vs native UUID on Postgres) and document it; test migration against both if time allows. |
 | **Fat route handlers** | Reviewers mark down “no service layer” | Enforce rule: routes only parse, validate (implicit via Pydantic), call service, return schema. |
 | **Inconsistent error JSON** | Frontend hacks; looks amateur | Define one error shape in `errors.py`; use `HTTPException(detail=...)` or exception handlers consistently. |
-| **Pagination without `total`** | UI cannot build proper pager | PRD asks for metadata; include total count or explain cursor contract — offset+total is easier. |
+| **Pagination without `total`** | UI cannot build proper pager | PRD asks for metadata; include total count or document a keyset paging contract — offset+total is easier. |
 | **CORS misconfiguration** | Frontend “mysteriously” fails | Set allowed origins from env; README calls out `VITE` port vs API port. |
 | **Tests coupled to production DB** | Flaky CI / slow onboarding | Tests use isolated SQLite or disposable Postgres schema; never require manual seed data. |
 | **Scope creep (auth, Docker swarm, etc.)** | Time lost; violates MRD non-goals | Treat README and backend tests as the “polish” investment, not new features. |

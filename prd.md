@@ -24,7 +24,7 @@
 | F2 | Dual validation | **Client-side** validation for immediate feedback; **server-side** validation as source of truth. |
 | F3 | Persist with identity and time | Each stored request has a **UUID** primary key and **timestamp(s)** (e.g. created_at; updated_at optional if justified). |
 | F4 | Retrieve one | Fetch a single customer/request by **ID** via API; UI or API consumer can display or use the record. |
-| F5 | List with pagination | List endpoint supports **pagination** (e.g. page/limit or cursor — choose one pattern and document it). |
+| F5 | List with pagination | Pagination is implemented using a standard **page/limit** approach. Keyset-style paging can be considered as a future enhancement for improved performance at scale. |
 | F6 | Consistent responses | **Success** and **error** payloads follow a predictable shape (status codes + structured body where applicable). |
 | F7 | Internal-tool UI | Records are shown in the UI in a **clean, internal-tool** style: readable tables/cards, clear hierarchy, no marketing chrome. |
 

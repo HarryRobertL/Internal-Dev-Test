@@ -55,7 +55,7 @@ CI runs on **every push and pull request**. It **applies Alembic migrations** an
 
 ## Key design decisions
 
-- **Pagination:** Offset/page (`page`, `limit`, `total`, `total_pages`) for a simple internal UI; cursor-based pagination would be the next step at very large scale.
+- **Pagination:** Offset/page (`page`, `limit`, `total`, `total_pages`) for the internal UI. Future improvements may include keyset-style paging for improved performance and scalability with large datasets.
 - **SQLite vs PostgreSQL:** SQLite for fast local work; PostgreSQL as the production-shaped target, with migrations and tests designed to stay compatible.
 
 
