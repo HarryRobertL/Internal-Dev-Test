@@ -2,18 +2,61 @@
 
 This project demonstrates a **production-minded internal customer request system**, focusing on clean architecture, API consistency, test coverage, CI integration, and resilient frontend behaviour. It is **not** a minimal CRUD demo: it is structured as a **production-aware internal tool** with migrations, envelopes, and operational guardrails.
 
-This project is structured to reflect **real-world internal tools** rather than a simplified tutorial implementation.
-
 ## Key features
 
-- **FastAPI backend** with a **service-layer** architecture (thin routes, testable domain logic)
-- **Alembic migrations** — versioned schema; **`create_all` is not used** on the production app path
-- **PostgreSQL compatibility** with local SQLite for fast dev; optional **PostgreSQL validation** script
-- **Standardised API envelope** — `{ data, error, meta }` for predictable clients and error handling
-- **React + TypeScript** internal dashboard (form, table, pagination) with a **clean internal-tool UX**
-- **Resilient API client** — timeouts, bounded retries (timeouts / 5xx; no network-error retry storms), abort-safe list loading
-- **CI pipeline** — backend migrations + pytest; frontend lint, tests, and build (see `.github/workflows/ci.yml`)
-- **Backend and frontend test coverage** — API, services, migrations/engine paths, and UI states
+- Service-layer FastAPI backend and typed React dashboard
+- Alembic-managed schema (no `create_all` on the app runtime path)
+- Standard `{ data, error, meta }` API contract and resilient frontend client
+- CI on every push and PR: migrations, tests, lint, build
+- Backend and frontend tests, plus optional PostgreSQL validation
+
+## Architecture overview
+
+```
+Frontend (React + TypeScript)
+  → API client (typed calls, timeout + bounded retries)
+  → FastAPI routes (thin controllers: parse, validate, delegate)
+  → Service layer (business rules, orchestration)
+  → Database (SQLAlchemy ORM + Alembic migrations)
+```
+
+**Why this separation:** Routes stay easy to read and change; **business logic lives in one place** so it is **unit-testable** without HTTP. The API client isolates **network behaviour** (timeouts, retries, errors) from UI components. Together this scales to more endpoints and consumers (jobs, CLIs) without duplicating rules or tangling UI with transport details.
+
+## Request lifecycle
+
+When a user submits the **Create customer request** form:
+
+1. **Frontend** validates inputs locally, then calls the API client.
+2. **API client** sends `POST /api/customers` with a JSON body, **enforces a timeout**, and **retries only** on timeout or **5xx** (not on network/CORS failures, to avoid retry storms).
+3. **FastAPI** applies **Pydantic validation** on the payload; invalid data returns a structured **error envelope** without hitting the DB.
+4. **Service layer** applies domain rules and persists via SQLAlchemy.
+5. **Database** commits the row; schema is defined by **Alembic** revisions, not ad-hoc DDL.
+6. **Response** returns the same **envelope** shape: success with `data` (and optional `meta`), or failure with `error` (`code`, `message`, `details`).
+
+The list view follows the same pattern: **GET** with pagination query params → validation → service query → envelope with `data` and `meta.pagination`.
+
+## Continuous integration
+
+Workflow: [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+
+CI runs on **every push and pull request**. It **applies Alembic migrations** and runs **backend tests**, then runs **frontend lint**, **frontend tests**, and a **production build**. That **enforces migrations, tests, lint, and build** before code is merged.
+
+**This ensures code quality and prevents regressions before changes are merged.**
+
+## Production considerations
+
+| Problem | Solution |
+|--------|----------|
+| Clients must handle success and errors consistently | **Standard envelope** `{ data, error, meta }` so the UI branches on one contract |
+| Slow or flaky networks cause hung UI or noisy retries | **Timeout + bounded retries** (timeouts / 5xx only); list loads are **abort-safe** on navigation |
+| Schema drift between environments | **Alembic** versions the schema; production path does not rely on `create_all` |
+| Operating without visibility or liveness signal | **Request logging** (method, path, status, duration, request id) and **`/health`** including DB check |
+| “Works on SQLite” is not enough for real deploys | **PostgreSQL driver and URL shape** supported; optional **validation script** against a real Postgres instance |
+
+## Key design decisions
+
+- **Pagination:** Offset/page (`page`, `limit`, `total`, `total_pages`) for a simple internal UI; cursor-based pagination would be the next step at very large scale.
+- **SQLite vs PostgreSQL:** SQLite for fast local work; PostgreSQL as the production-shaped target, with migrations and tests designed to stay compatible.
 
 > **GitHub repository description** (paste into repo **Settings → General → Description**):  
 > Production-minded full-stack customer request system built with FastAPI and React, featuring CI, PostgreSQL validation, structured API contracts, and resilient frontend data handling.
@@ -96,14 +139,6 @@ export TEST_DATABASE_URL="postgresql+psycopg://postgres:postgres@localhost:5432/
 bash scripts/test_postgres.sh
 ```
 
-## Key design decisions
-
-- **Service layer:** Business logic lives in services rather than routes to keep API handlers thin, improve testability, and allow future consumers (CLI/jobs) to reuse the same rules.
-- **Alembic over `create_all`:** Versioned migrations provide deterministic schema evolution, rollback paths, and safer team workflows; `create_all` is convenient for local prototypes but does not manage incremental production change.
-- **Consistent API envelope (`data`, `error`, `meta`):** A single response shape reduces frontend branching, makes error handling predictable, and lowers contract drift risk as endpoints grow.
-- **Pagination:** Offset/page pagination (`page`, `limit`, `total`, `total_pages`) for clarity and straightforward UI wiring. Trade-off: deep pages can be less efficient than cursor-based pagination at very large scale.
-- **SQLite vs PostgreSQL:** SQLite keeps local setup fast; PostgreSQL is the production-shaped target. Migrations and tests are designed to validate behaviour across both.
-
 ## Verification commands (clean run)
 
 ### Backend
@@ -147,3 +182,7 @@ npm run lint
 - [x] Setup, migration, and verification commands documented
 - [x] CI workflow for backend migrations/tests and frontend lint/test/build
 - [x] Naming and docs links consistent (`MRD.md` canonical)
+
+---
+
+This project is intentionally structured to reflect **real-world internal systems**, focusing on **reliability, maintainability, and predictable behaviour** rather than minimal implementation.
