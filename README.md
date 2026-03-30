@@ -58,8 +58,6 @@ CI runs on **every push and pull request**. It **applies Alembic migrations** an
 - **Pagination:** Offset/page (`page`, `limit`, `total`, `total_pages`) for a simple internal UI; cursor-based pagination would be the next step at very large scale.
 - **SQLite vs PostgreSQL:** SQLite for fast local work; PostgreSQL as the production-shaped target, with migrations and tests designed to stay compatible.
 
-> **GitHub repository description** (paste into repo **Settings → General → Description**):  
-> Production-minded full-stack customer request system built with FastAPI and React, featuring CI, PostgreSQL validation, structured API contracts, and resilient frontend data handling.
 
 ## Repository structure
 
